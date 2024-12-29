@@ -11,6 +11,21 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+/* Loader */
+.loader{
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 5px solid #2563ed;
+  border-radius: 50%;
+  z-index: 9999;
+  animation: rotation 1s linear infinite;
+}
 
 /* 헤더 스타일 */
 .header {
@@ -152,7 +167,13 @@ body {
 .nav-list li a:hover, .login-button:hover {
   color: #007bff;
 }
+.nav-list .logout{
+  color: red;
+}
 
+.nav-list .login a{
+  color: #007bff;
+}
 /* 메인 콘텐츠 스타일 */
 .main-content {
   flex: 1;

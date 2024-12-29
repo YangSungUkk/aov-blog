@@ -1,0 +1,95 @@
+/* Form 전체 스타일 */
+.form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.form--lg {
+  max-width: 500px; /* 넓은 폼 옵션 */
+}
+
+/* Form 제목 */
+.form__title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333333;
+}
+
+/* Form 블록 */
+.form__block {
+  margin-bottom: 20px;
+}
+
+/* 레이블 */
+.form__block label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555555;
+}
+
+/* 입력 필드 */
+.form__block input[type="email"],
+.form__block input[type="password"],
+.form__block input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form__block input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* 에러 메시지 */
+.form__error {
+  margin-top: 5px;
+  font-size: 14px;
+  color: red;
+}
+
+/* 링크 */
+.form__link {
+  margin-left: 5px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.form__link:hover {
+  text-decoration: underline;
+}
+
+/* 버튼 */
+.form__btn--submit {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form__btn--submit:hover {
+  background-color: #0056b3;
+}
+
+.form__btn--submit:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
