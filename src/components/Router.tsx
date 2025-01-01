@@ -3,6 +3,9 @@ import Home from "pages/home";
 import Private from "pages/private";
 import LoginPage from "pages/login";
 import SignupPage from "pages/signup";
+import PublicDetailPage from "pages/home/detail";
+import PublicNewPage from "pages/home/new";
+
 
 
 interface RouterProps {
@@ -18,8 +21,8 @@ export default function Router({ isAuthenticated }:RouterProps) {
           <>
             <Route path="/" element={<Home />} />
             <Route path="/public" element={<Home />} />
-            <Route path="/public/new" element={<h1>Public New Page</h1>} />
-            <Route path="/public/:id" element={<h1>Public Detail Page</h1>} />
+            <Route path="/public/new" element={<PublicNewPage />} />
+            <Route path="/public/:id" element={<PublicDetailPage />} />
             <Route
               path="/public/edit/:id"
               element={<h1>Public Edit Page</h1>}

@@ -35,6 +35,9 @@
     ],
     "firebaseApp/*": [
       "firebaseApp/*"
+    ],
+    "context/*": [
+      "context/*"
     ]
   } 
 }

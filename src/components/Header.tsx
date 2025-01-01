@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 export default function Header() {
   const auth = getAuth(app);
+  // const { user} = useContext(AuthContext);
   const [user, setUser] = useState<any>(null); // 사용자 상태를 관리
 
   const onSignOut = async () => {
