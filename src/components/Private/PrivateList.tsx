@@ -13,16 +13,16 @@ interface PostProps {
   createAt: string;
 }
 
-interface PublicListProps {
+interface PrivateListProps {
   cardStyle?: boolean; // 카드 형식 여부
 }
 
-export default function PublicList({ cardStyle = false }: PublicListProps) {
+export default function PrivateList({ cardStyle = false }: PrivateListProps) {
   const [posts, setPosts] = useState<PostProps[]>([]);
   const { user } = useContext(AuthContext);
 
   const getPosts = async () => {
-    const datas = await getDocs(collection(db, "publics"));
+    const datas = await getDocs(collection(db, "privates"));
     const postsArray: PostProps[] = [];
     datas.forEach((doc) => {
       const dataObj = { ...doc.data(), id: doc.id } as PostProps;
@@ -43,7 +43,7 @@ export default function PublicList({ cardStyle = false }: PublicListProps) {
     <div className={cardStyle ? "grid" : "post__list"}>
       {posts.map((post) => (
         <div key={post.id} className={cardStyle ? "card" : "post__box"}>
-          <Link to={`/public/${post.id}`}>
+          <Link to={`/private/${post.id}`}>
             {cardStyle && post.image && (
               <div className="image-container">
                 <img
@@ -57,7 +57,7 @@ export default function PublicList({ cardStyle = false }: PublicListProps) {
           {user?.email === post.email && !cardStyle && (
             <div className="post__utils-box">
               <div className="post__delete">삭제</div>
-              <Link to={`/public/edit/${post.id}`} className="post__edit">
+              <Link to={`/private/edit/${post.id}`} className="post__edit">
                 수정
               </Link>
             </div>

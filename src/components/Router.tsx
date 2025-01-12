@@ -5,6 +5,8 @@ import LoginPage from "pages/login";
 import SignupPage from "pages/signup";
 import PublicDetailPage from "pages/home/detail";
 import PublicNewPage from "pages/home/new";
+import PrivateNewPage from "pages/private/new";
+import PrivateDetailPage from "pages/private/detail";
 
 
 
@@ -28,8 +30,8 @@ export default function Router({ isAuthenticated }:RouterProps) {
               element={<h1>Public Edit Page</h1>}
             />
             <Route path="/private" element={<Private />} />
-            <Route path="/private/new" element={<h1>Private New Page</h1>} />
-            <Route path="/private/:id" element={<h1>Private Detail Page</h1>} />
+            <Route path="/private/new" element={<PrivateNewPage />} />
+            <Route path="/private/:id" element={<PrivateDetailPage/>} />
             <Route
               path="/private/edit/:id"
               element={<h1>Private Edit Page</h1>}
