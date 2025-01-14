@@ -7,6 +7,7 @@ import PublicDetailPage from "pages/home/detail";
 import PublicNewPage from "pages/home/new";
 import PrivateNewPage from "pages/private/new";
 import PrivateDetailPage from "pages/private/detail";
+import PrivateEditPage from "pages/private/edit";
 
 
 
@@ -32,10 +33,7 @@ export default function Router({ isAuthenticated }:RouterProps) {
             <Route path="/private" element={<Private />} />
             <Route path="/private/new" element={<PrivateNewPage />} />
             <Route path="/private/:id" element={<PrivateDetailPage/>} />
-            <Route
-              path="/private/edit/:id"
-              element={<h1>Private Edit Page</h1>}
-            />
+            <Route path="/private/edit/:id" element={<PrivateEditPage/>} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </>
         ) : (

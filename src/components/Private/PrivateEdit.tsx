@@ -1,11 +1,14 @@
 import { useContext, useState, useEffect } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "firebaseApp";
 import AuthContext from "context/AuthContext";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { PostProps } from "./PrivateList";
 
-export default function PrivateForm() {
+export default function PrivateEdit() {
+  const params = useParams();
+  const [post, setPost] = useState<PostProps | null>(null);
   const [image, setImage] = useState<string | null>(null); // 단일 메인 이미지
   const [sampleImages, setSampleImages] = useState<string[]>([]); // 여러 샘플 이미지 저장
   const [prompt, setPrompt] = useState<string>(""); // 프롬프트
@@ -17,7 +20,12 @@ export default function PrivateForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const categories = ["Illustration", "art photography", "fashion model", "product photo"]; // 카테고리 목록
+  const categories = [
+    "Illustration",
+    "art photography",
+    "fashion model",
+    "product photo",
+  ]; // 카테고리 목록
 
   // URL에서 카테고리 파라미터 읽기
   useEffect(() => {
@@ -46,18 +54,19 @@ export default function PrivateForm() {
 
     setLoading(true);
     try {
-      await addDoc(collection(db, "privates"), {
-        image,
-        sampleImages,
-        prompt,
-        parameters: parameters.join(", "),
-        category, // 선택된 카테고리 저장
-        createAt: formatDate(),
-        email: user?.email,
-      });
-
-      toast.success("게시글을 생성했습니다.");
-      navigate(`/private?category=${category}`); // 선택된 카테고리로 이동
+      if (post && post.id) {
+        const postRef = doc(db, "privates", post?.id);
+        await updateDoc(postRef, {
+          image,
+          sampleImages,
+          prompt,
+          parameters: parameters.join(", "),
+          category, // 선택된 카테고리 저장
+          updateAt: formatDate(),
+        });
+        toast.success("게시글을 수정했습니다.");
+        navigate(-1);
+      }
     } catch (e: any) {
       console.log(e);
       toast.error(e?.code);
@@ -114,7 +123,10 @@ export default function PrivateForm() {
         if (file) {
           const reader = new FileReader();
           reader.onload = (event) => {
-            setSampleImages((prev) => [...prev, event.target?.result as string]);
+            setSampleImages((prev) => [
+              ...prev,
+              event.target?.result as string,
+            ]);
             if (!imageAdded) {
               toast.success("샘플 이미지가 성공적으로 추가되었습니다.");
               imageAdded = true;
@@ -146,14 +158,48 @@ export default function PrivateForm() {
     setParameters((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleParameterKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>
-  ) => {
+  const handleParameterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
       onAddParameter();
     }
   };
+
+  //Post 값 불러오기
+  const getPost = async (id: string) => {
+    if (id) {
+      const docRef = doc(db, "privates", id);
+      const docSnap = await getDoc(docRef);
+
+      setPost({ id: docSnap.id, ...(docSnap.data() as PostProps) });
+    }
+  };
+  useEffect(() => {
+    if (params?.id) getPost(params?.id);
+  }, [params?.id]);
+
+  useEffect(() => {
+    if (post) {
+      // 이미지 값 설정
+      setImage(post?.image || null);
+
+      // 샘플 이미지 배열 값 설정
+      setSampleImages(post?.sampleImages || []);
+
+      // 프롬프트 값 설정
+      setPrompt(post?.prompt || "");
+
+      // 파라미터 값 설정
+      if (typeof post.parameters === "string") {
+        setParameters(post.parameters.split(", ").map((param) => param.trim()));
+      } else {
+        setParameters(post.parameters || []);
+      }
+
+      // 카테고리 값 설정
+      setCategory(post?.category || "Illustration");
+    }
+  }, [post]);
 
   return (
     <form onSubmit={onSubmit} className="form">
